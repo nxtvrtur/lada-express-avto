@@ -6,7 +6,8 @@
 <title>Экспресс-авто — Официальный дилер LADA в г. Кропоткин</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900&family=Barlow:wght@300;400;500;600&family=Russo+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ============================================================
    DESIGN SYSTEM
@@ -27,7 +28,7 @@
   --glass:        rgba(255,255,255,0.03);
   --glass-b:      rgba(255,255,255,0.07);
   --ease:         cubic-bezier(0.16,1,0.3,1);
-  --font-hd:      'Bebas Neue', sans-serif;
+  --font-hd:      'Russo One', sans-serif;
   --font-cd:      'Barlow Condensed', sans-serif;
   --font-bd:      'Barlow', sans-serif;
 }
@@ -82,9 +83,11 @@ body{
 #loader.done{opacity:0;visibility:hidden}
 .ld-logo{
   font-family:var(--font-hd);
-  font-size:52px;
-  letter-spacing:.08em;
+  font-size:clamp(22px,7vw,44px);
+  letter-spacing:.04em;
   color:var(--white);
+  text-align:center;
+  padding:0 16px;
 }
 .ld-logo em{color:var(--red);font-style:normal}
 .ld-bar{width:220px;height:1px;background:var(--dark-3);overflow:hidden}
@@ -261,8 +264,8 @@ body{
 .h-tag::before{content:'';width:36px;height:1px;background:var(--red)}
 .h-title{
   font-family:var(--font-hd);
-  font-size:clamp(70px,9.5vw,140px);
-  line-height:.88;letter-spacing:.025em;
+  font-size:clamp(48px,7vw,100px);
+  line-height:.95;letter-spacing:.01em;
   color:var(--white);margin-bottom:28px;
   opacity:0;animation:up .8s .7s var(--ease) forwards;
 }
@@ -368,9 +371,9 @@ body{
 }
 .stat:last-child{border-right:none}
 .stat-n{
-  font-family:var(--font-hd);font-size:56px;color:var(--white);line-height:1;
+  font-family:var(--font-hd);font-size:44px;color:var(--white);line-height:1;
 }
-.stat-n .u{font-size:30px;color:var(--red)}
+.stat-n .u{font-size:24px;color:var(--red)}
 .stat-l{
   font-family:var(--font-cd);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);margin-top:4px;
@@ -388,8 +391,8 @@ body{
 .sec-tag::before{content:'';width:22px;height:1px;background:var(--red)}
 .sec-h{
   font-family:var(--font-hd);
-  font-size:clamp(52px,6.5vw,96px);
-  line-height:.9;letter-spacing:.025em;color:var(--white);
+  font-size:clamp(38px,5vw,72px);
+  line-height:1;letter-spacing:.01em;color:var(--white);
 }
 .sec-h .gh{
   -webkit-text-stroke:1px rgba(255,255,255,.13);
@@ -509,7 +512,12 @@ body{
 }
 .srv-card:hover::before{transform:scaleY(1)}
 .srv-card:hover{background:var(--dark-3)}
-.srv-icon{font-size:38px;margin-bottom:22px;display:block}
+.srv-icon{
+  width:44px;height:44px;
+  color:var(--red);
+  margin-bottom:22px;display:block;
+  stroke-width:1.5px;
+}
 .srv-num{
   position:absolute;top:22px;right:28px;
   font-family:var(--font-hd);font-size:88px;
@@ -1084,7 +1092,7 @@ footer{
     <li><a href="#contacts">Контакты</a></li>
   </ul>
   <a href="tel:+78619234567" class="nav-phone">
-    <div class="phone-ring">📞</div>
+    <div class="phone-ring"><i data-lucide="phone" style="width:13px;height:13px;stroke-width:2px"></i></div>
     +7 (861) 923-45-67
   </a>
   <button class="burger" id="burger" onclick="toggleMob()">
@@ -1304,28 +1312,28 @@ footer{
   </div>
   <div class="srv-grid">
     <div class="srv-card rv">
-      <span class="srv-icon">🔧</span>
+      <i data-lucide="wrench" class="srv-icon"></i>
       <div class="srv-num">01</div>
       <div class="srv-t">Техническое обслуживание</div>
       <p class="srv-d">Плановое ТО по регламенту LADA. Оригинальные запчасти, гарантия на работы. Быстро и без очередей.</p>
       <a href="#contacts" class="srv-lnk">Записаться →</a>
     </div>
     <div class="srv-card rv d1">
-      <span class="srv-icon">🔬</span>
+      <i data-lucide="scan-search" class="srv-icon"></i>
       <div class="srv-num">02</div>
       <div class="srv-t">Компьютерная диагностика</div>
       <p class="srv-d">Диагностика всех систем официальным дилерским оборудованием. Точно выявим любую неисправность.</p>
       <a href="#contacts" class="srv-lnk">Подробнее →</a>
     </div>
     <div class="srv-card rv">
-      <span class="srv-icon">🏗️</span>
+      <i data-lucide="hammer" class="srv-icon"></i>
       <div class="srv-num">03</div>
       <div class="srv-t">Кузовной ремонт</div>
       <p class="srv-d">Собственная малярно-кузовная мастерская. Восстановление любой сложности с гарантией на результат.</p>
       <a href="#contacts" class="srv-lnk">Рассчитать стоимость →</a>
     </div>
     <div class="srv-card rv d1">
-      <span class="srv-icon">❄️</span>
+      <i data-lucide="circle-gauge" class="srv-icon"></i>
       <div class="srv-num">04</div>
       <div class="srv-t">Шиномонтаж и балансировка</div>
       <p class="srv-d">Сезонная смена шин, балансировка и хранение резины. Принимаем без предварительной записи.</p>
@@ -1514,14 +1522,17 @@ footer{
     </div>
   </div>
   <div class="rv d2">
-    <div class="map-box">
-      <div class="map-pin">
-        <div class="map-dot"></div>
-        <div class="map-lbl">Экспресс-авто<small>г. Кропоткин, ул. Советская, 202</small></div>
-      </div>
+    <div class="map-box" style="padding:0;border:none;overflow:hidden">
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?pt=40.5724,45.4358&z=16&l=map&lang=ru_RU&theme=dark"
+        width="100%" height="100%"
+        frameborder="0"
+        allowfullscreen
+        style="display:block;border:none;filter:saturate(.7) brightness(.85)"
+      ></iframe>
     </div>
     <div class="how-box">
-      <div class="how-ico">🚗</div>
+      <i data-lucide="navigation" class="how-ico" style="width:32px;height:32px;color:var(--red);stroke-width:1.5px;flex-shrink:0"></i>
       <div>
         <div class="how-t">Как добраться</div>
         <p class="how-d">От ж/д вокзала Кропоткин — 10 минут на машине. В центре города, бесплатная парковка на территории.</p>
@@ -1585,6 +1596,9 @@ footer{
 
 <!-- ═══════════════════════════════════════════ SCRIPTS ═════ -->
 <script>
+/* init Lucide icons */
+lucide.createIcons();
+
 /* ── CURSOR ─────────────────────────────────────────────── */
 const cur = document.getElementById('cur');
 const ring = document.getElementById('cur-ring');
