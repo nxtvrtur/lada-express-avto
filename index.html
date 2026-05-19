@@ -545,27 +545,39 @@ body{
   padding:120px 64px;
   display:grid;grid-template-columns:1fr 1fr;gap:84px;align-items:center;
 }
-.ti-vis{position:relative;height:500px}
-.ti-img-a{
-  position:absolute;right:0;top:0;
-  width:84%;height:83%;
-  object-fit:cover;filter:grayscale(25%);
+/* Trade-in visual — clean stacked layout */
+.ti-vis{
+  display:flex;flex-direction:column;gap:3px;
+  height:520px;
 }
-.ti-img-b{
-  position:absolute;left:0;bottom:0;
-  width:54%;height:52%;
-  object-fit:cover;border:4px solid var(--dark-2);
-  filter:grayscale(10%);
+.ti-slot{
+  position:relative;overflow:hidden;flex:1;
+  background:#dcdcdc;
 }
-.ti-tag{
-  position:absolute;top:50%;right:-22px;
-  transform:translateY(-50%);
-  background:var(--red);padding:18px 12px;
-  writing-mode:vertical-rl;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
+.ti-slot img{
+  width:100%;height:100%;
+  object-fit:contain;object-position:center;
+  filter:grayscale(15%) brightness(.96);
+  transition:transform .6s var(--ease),filter .5s;
 }
-.ti-tag-t{
-  font-family:var(--font-cd);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+.ti-slot:hover img{transform:scale(1.04);filter:grayscale(0%) brightness(1)}
+.ti-slot-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:10px 16px;
+  background:linear-gradient(to top,rgba(7,7,8,.85) 0%,transparent 100%);
+  font-family:var(--font-cd);
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:8px;
+}
+.ti-slot-label.new{color:#fff}
+.ti-exchange{
+  background:var(--red);
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  padding:13px 20px;flex-shrink:0;
+}
+.ti-exchange-t{
+  font-family:var(--font-cd);font-size:12px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:#fff;
 }
 .ti-steps{display:flex;flex-direction:column;gap:30px;margin-top:38px}
 .ti-step{display:flex;gap:18px;align-items:flex-start}
@@ -924,8 +936,7 @@ footer{
 
   /* Trade-in */
   .ti-sec{grid-template-columns:1fr;gap:40px;padding:80px 28px}
-  .ti-vis{height:340px}
-  .ti-tag{right:-14px}
+  .ti-vis{height:420px}
 
   /* Taxi */
   .taxi-sec{grid-template-columns:1fr;padding:80px 28px;gap:36px}
@@ -1009,10 +1020,8 @@ footer{
 
   /* Trade-in */
   .ti-sec{padding:60px 20px;gap:32px}
-  .ti-vis{height:280px}
-  .ti-img-a{width:90%;height:90%}
-  .ti-img-b{width:48%;height:48%}
-  .ti-tag{display:none}
+  .ti-vis{height:360px}
+  .ti-exchange-t{font-size:10px;letter-spacing:.12em}
   .ti-steps{gap:22px}
   .ti-step-n{font-size:40px;min-width:40px}
 
@@ -1345,11 +1354,23 @@ footer{
 <!-- ═══════════════════════════════════════ TRADE-IN ════════ -->
 <div class="ti-sec" id="tradein">
   <div class="ti-vis rv">
-    <img class="ti-img-a" src="https://images.unsplash.com/photo-1617814076668-8dfc6fe3b744?w=800&q=80&fit=crop" alt="Trade-in">
-    <img class="ti-img-b" src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=500&q=80&fit=crop" alt="Обмен">
-    <div class="ti-tag">
-      <span class="ti-tag-t">Trade</span>
-      <span class="ti-tag-t">in</span>
+    <div class="ti-slot">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/2021_Lada_Granta_2109060_sedan_grey_rear.jpg" alt="Ваш автомобиль">
+      <div class="ti-slot-label">
+        <i data-lucide="car" style="width:14px;height:14px;flex-shrink:0"></i>
+        Ваш автомобиль
+      </div>
+    </div>
+    <div class="ti-exchange">
+      <i data-lucide="arrow-right-left" style="width:16px;height:16px;color:#fff;flex-shrink:0"></i>
+      <span class="ti-exchange-t">Обмен в один день — Trade-in</span>
+    </div>
+    <div class="ti-slot">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/2019_Lada_Vesta_Exclusive_white_front.jpg" alt="Новый LADA">
+      <div class="ti-slot-label new">
+        <i data-lucide="sparkles" style="width:14px;height:14px;flex-shrink:0;color:var(--red)"></i>
+        Новый LADA
+      </div>
     </div>
   </div>
   <div class="rv d2">
