@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Экспресс-авто — Официальный дилер LADA в г. Кропоткин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN SYSTEM
+   ============================================================ */
+:root {
+  --red:          #E3001B;
+  --red-dark:     #B50015;
+  --red-glow:     rgba(227,0,27,0.35);
+  --black:        #070708;
+  --dark:         #0D0D0F;
+  --dark-2:       #141416;
+  --dark-3:       #1C1C1F;
+  --dark-4:       #222226;
+  --chrome:       #C4C4C8;
+  --chrome-lt:    #E6E6EA;
+  --white:        #F2F2F5;
+  --muted:        rgba(196,196,200,0.45);
+  --glass:        rgba(255,255,255,0.03);
+  --glass-b:      rgba(255,255,255,0.07);
+  --ease:         cubic-bezier(0.16,1,0.3,1);
+  --font-hd:      'Bebas Neue', sans-serif;
+  --font-cd:      'Barlow Condensed', sans-serif;
+  --font-bd:      'Barlow', sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--font-bd);
+  overflow-x:hidden;
+  cursor:none;
+}
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--red)}
+
+/* ============================================================
+   CURSOR
+   ============================================================ */
+.cur{
+  width:6px;height:6px;
+  background:var(--red);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .12s var(--ease),background .25s;
+}
+.cur-ring{
+  width:30px;height:30px;
+  border:1px solid rgba(227,0,27,.4);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,border-color .3s;
+}
+.cur.on{transform:translate(-50%,-50%) scale(2.5);background:#fff}
+.cur-ring.on{width:52px;height:52px;border-color:var(--red)}
+
+/* ============================================================
+   LOADER
+   ============================================================ */
+#loader{
+  position:fixed;inset:0;
+  background:var(--black);
+  z-index:9000;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;
+  transition:opacity .7s,visibility .7s;
+}
+#loader.done{opacity:0;visibility:hidden}
+.ld-logo{
+  font-family:var(--font-hd);
+  font-size:52px;
+  letter-spacing:.08em;
+  color:var(--white);
+}
+.ld-logo em{color:var(--red);font-style:normal}
+.ld-bar{width:220px;height:1px;background:var(--dark-3);overflow:hidden}
+.ld-prog{
+  height:100%;background:var(--red);width:0;
+  animation:ldgo 1.6s var(--ease) forwards;
+}
+@keyframes ldgo{to{width:100%}}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+#mob-menu{
+  position:fixed;inset:0;
+  background:var(--black);
+  z-index:998;
+  display:flex;flex-direction:column;
+  padding:110px 36px 50px;
+  transform:translateX(100%);
+  transition:transform .55s var(--ease);
+}
+#mob-menu.open{transform:translateX(0)}
+.mob-links{list-style:none;display:flex;flex-direction:column;gap:4px;flex:1}
+.mob-links a{
+  font-family:var(--font-hd);
+  font-size:clamp(40px,8vw,60px);
+  color:rgba(255,255,255,.12);
+  text-decoration:none;
+  line-height:1.1;
+  transition:color .3s;
+}
+.mob-links a:hover{color:var(--white)}
+.mob-phone{
+  font-family:var(--font-cd);
+  font-size:22px;font-weight:700;
+  color:var(--white);
+  margin-top:32px;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:997;
+  padding:22px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,padding .4s,backdrop-filter .4s;
+}
+.nav.sticky{
+  background:rgba(7,7,8,.84);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--glass-b);
+  padding:14px 64px;
+}
+.nav-logo{display:flex;align-items:center;gap:13px;text-decoration:none}
+.logo-hex{
+  width:38px;height:38px;
+  background:var(--red);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-hd);font-size:15px;color:#fff;
+  flex-shrink:0;
+}
+.logo-txt{
+  font-family:var(--font-cd);
+  font-size:19px;font-weight:700;letter-spacing:.04em;
+  color:var(--white);line-height:1;
+}
+.logo-txt span{
+  display:block;
+  font-size:9.5px;font-weight:400;letter-spacing:.2em;
+  color:var(--muted);text-transform:uppercase;margin-top:2px;
+}
+.nav-links{
+  display:flex;align-items:center;gap:32px;list-style:none;
+}
+.nav-links a{
+  font-family:var(--font-cd);
+  font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--chrome);text-decoration:none;
+  position:relative;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--red);
+  transition:width .35s var(--ease);
+}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-phone{
+  font-family:var(--font-cd);
+  font-size:15px;font-weight:700;letter-spacing:.04em;
+  color:var(--white);text-decoration:none;
+  display:flex;align-items:center;gap:9px;
+  transition:color .3s;
+}
+.nav-phone:hover{color:var(--red)}
+.phone-ring{
+  width:30px;height:30px;
+  border:1px solid rgba(227,0,27,.5);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;
+}
+.burger{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;padding:4px;
+}
+.burger span{
+  display:block;width:24px;height:1px;
+  background:var(--white);
+  transition:transform .3s,opacity .3s;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;height:100vh;min-height:680px;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+#pcanvas{
+  position:absolute;inset:0;z-index:0;
+  width:100%;height:100%;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(ellipse 55% 65% at 72% 52%,rgba(227,0,27,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 35% 75% at 18% 82%,rgba(227,0,27,.035) 0%,transparent 60%),
+    linear-gradient(150deg,#070708 0%,#0D0D0F 55%,#090909 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 40% 50%, black 10%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 40% 50%, black 10%,transparent 75%);
+}
+.hero-photo{
+  position:absolute;right:-4%;top:50%;
+  transform:translateY(-50%);
+  width:62%;height:95%;
+  z-index:2;overflow:hidden;
+}
+.hero-photo img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  opacity:.22;
+  filter:grayscale(35%) contrast(1.15);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 28%,rgba(0,0,0,.9) 55%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 28%,rgba(0,0,0,.9) 55%,transparent 100%);
+  transform:scale(1.05);
+  transition:transform 20s linear;
+}
+.hero-photo img:hover{transform:scale(1)}
+.hero-content{
+  position:relative;z-index:3;
+  padding:0 64px;max-width:740px;
+}
+.h-tag{
+  font-family:var(--font-cd);
+  font-size:11px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--red);margin-bottom:22px;
+  display:flex;align-items:center;gap:14px;
+  opacity:0;animation:up .8s .5s var(--ease) forwards;
+}
+.h-tag::before{content:'';width:36px;height:1px;background:var(--red)}
+.h-title{
+  font-family:var(--font-hd);
+  font-size:clamp(70px,9.5vw,140px);
+  line-height:.88;letter-spacing:.025em;
+  color:var(--white);margin-bottom:28px;
+  opacity:0;animation:up .8s .7s var(--ease) forwards;
+}
+.h-title .r{color:var(--red)}
+.h-title .g{
+  -webkit-text-stroke:1px rgba(255,255,255,.25);
+  color:transparent;
+}
+.h-sub{
+  font-size:15px;font-weight:300;line-height:1.75;
+  color:var(--chrome);max-width:420px;margin-bottom:42px;
+  opacity:0;animation:up .8s .9s var(--ease) forwards;
+}
+.h-ctas{
+  display:flex;gap:14px;flex-wrap:wrap;
+  opacity:0;animation:up .8s 1.1s var(--ease) forwards;
+}
+.btn-r{
+  font-family:var(--font-cd);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;background:var(--red);
+  border:none;padding:15px 34px;
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;
+  position:relative;overflow:hidden;cursor:none;
+  transition:transform .3s var(--ease);
+}
+.btn-r::before{
+  content:'';position:absolute;inset:0;
+  background:var(--red-dark);
+  transform:translateX(-101%);transition:transform .4s var(--ease);
+}
+.btn-r:hover{transform:translateY(-3px)}
+.btn-r:hover::before{transform:translateX(0)}
+.btn-r span{position:relative;z-index:1}
+.btn-o{
+  font-family:var(--font-cd);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--white);background:transparent;
+  border:1px solid rgba(255,255,255,.18);
+  padding:15px 34px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;cursor:none;
+  transition:border-color .3s,background .3s,transform .3s var(--ease);
+}
+.btn-o:hover{border-color:var(--red);background:rgba(227,0,27,.07);transform:translateY(-3px)}
+.h-scroll{
+  position:absolute;bottom:36px;left:64px;z-index:3;
+  display:flex;align-items:center;gap:13px;
+  font-family:var(--font-cd);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+  opacity:0;animation:fadein 1s 1.6s forwards;
+}
+.scroll-ln{width:38px;height:1px;background:var(--muted);overflow:hidden;position:relative}
+.scroll-ln::after{
+  content:'';position:absolute;inset:0;
+  background:var(--red);transform:translateX(-100%);
+  animation:scanline 2.2s 2s infinite;
+}
+@keyframes scanline{0%{transform:translateX(-100%)}50%{transform:translateX(0)}100%{transform:translateX(100%)}}
+.h-stats{
+  position:absolute;right:64px;top:50%;transform:translateY(-50%);
+  z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  opacity:0;animation:fadein 1s 2s forwards;
+}
+.hs-item{display:flex;flex-direction:column;align-items:center;text-align:center}
+.hs-n{font-family:var(--font-hd);font-size:38px;color:var(--red);line-height:1}
+.hs-l{
+  font-family:var(--font-cd);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);
+}
+.hs-div{width:1px;height:32px;background:var(--glass-b)}
+@keyframes up{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.mq{background:var(--red);padding:11px 0;overflow:hidden}
+.mq-track{
+  display:flex;white-space:nowrap;
+  animation:mq 22s linear infinite;
+}
+.mq-item{
+  font-family:var(--font-cd);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);padding:0 36px;
+  display:inline-flex;align-items:center;gap:18px;
+}
+.mq-item::after{content:'◆';font-size:7px;color:rgba(255,255,255,.35)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================
+   STATS BAR
+   ============================================================ */
+.stats{
+  background:var(--dark-2);
+  border-top:1px solid var(--glass-b);
+  border-bottom:1px solid var(--glass-b);
+  padding:44px 64px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat{
+  padding:0 36px;
+  border-right:1px solid var(--glass-b);
+}
+.stat:last-child{border-right:none}
+.stat-n{
+  font-family:var(--font-hd);font-size:56px;color:var(--white);line-height:1;
+}
+.stat-n .u{font-size:30px;color:var(--red)}
+.stat-l{
+  font-family:var(--font-cd);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-top:4px;
+}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.sec{padding:120px 64px}
+.sec-tag{
+  font-family:var(--font-cd);font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--red);margin-bottom:14px;
+  display:flex;align-items:center;gap:11px;
+}
+.sec-tag::before{content:'';width:22px;height:1px;background:var(--red)}
+.sec-h{
+  font-family:var(--font-hd);
+  font-size:clamp(52px,6.5vw,96px);
+  line-height:.9;letter-spacing:.025em;color:var(--white);
+}
+.sec-h .gh{
+  -webkit-text-stroke:1px rgba(255,255,255,.13);
+  color:transparent;
+}
+
+/* ============================================================
+   CARS
+   ============================================================ */
+.cars-sec{background:var(--dark)}
+.cars-tabs{
+  display:flex;border-bottom:1px solid var(--glass-b);
+  margin-bottom:48px;
+}
+.ctab{
+  font-family:var(--font-cd);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);padding:13px 24px;
+  background:none;border:none;border-bottom:2px solid transparent;
+  cursor:none;position:relative;top:1px;
+  transition:color .3s,border-color .3s;
+}
+.ctab.on{color:var(--white);border-bottom-color:var(--red)}
+.ctab:hover:not(.on){color:var(--chrome)}
+.cars-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:3px;
+}
+.car-card{
+  background:var(--dark-2);
+  position:relative;overflow:hidden;
+  transition:transform .45s var(--ease);
+}
+.car-card:hover{transform:translateY(-5px)}
+.cc-img{
+  height:230px;overflow:hidden;position:relative;
+}
+.cc-img img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  filter:grayscale(25%);
+  transition:transform .65s var(--ease),filter .5s;
+}
+.car-card:hover .cc-img img{transform:scale(1.07);filter:grayscale(0%)}
+.cc-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,var(--dark-2) 0%,transparent 55%);
+}
+.cc-badge{
+  position:absolute;top:14px;right:14px;z-index:1;
+  font-family:var(--font-cd);font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;background:var(--red);padding:3px 9px;
+}
+.cc-body{padding:22px 26px 26px}
+.cc-fam{
+  font-family:var(--font-cd);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--red);margin-bottom:4px;
+}
+.cc-name{
+  font-family:var(--font-hd);font-size:40px;color:var(--white);line-height:1;margin-bottom:14px;
+}
+.cc-specs{display:flex;gap:18px;margin-bottom:18px}
+.cc-spec-v{
+  font-family:var(--font-cd);font-size:15px;font-weight:600;color:var(--chrome-lt);
+}
+.cc-spec-k{
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.cc-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:18px;border-top:1px solid var(--glass-b);
+}
+.cc-price{font-family:var(--font-cd);font-size:11px;color:var(--muted)}
+.cc-price-v{
+  font-family:var(--font-hd);font-size:28px;color:var(--white);display:block;line-height:1;
+}
+.cc-btn{
+  font-family:var(--font-cd);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:#fff;background:var(--red);border:none;
+  padding:9px 18px;cursor:none;text-decoration:none;
+  transition:background .3s,transform .2s;display:inline-block;
+}
+.cc-btn:hover{background:var(--red-dark);transform:translateX(3px)}
+/* Wide Aura card */
+.car-card.wide{grid-column:span 2}
+.car-card.wide .cc-inner{display:grid;grid-template-columns:1.15fr 1fr;height:100%}
+.car-card.wide .cc-img{height:100%;min-height:270px}
+.car-card.wide .cc-body{display:flex;flex-direction:column;justify-content:center;padding:40px}
+.car-card.wide .cc-name{font-size:62px}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+.srv-sec{background:var(--black);position:relative;overflow:hidden}
+.srv-sec::before{
+  content:'СЕРВИС';
+  position:absolute;right:-80px;top:50%;
+  transform:translateY(-50%) rotate(90deg);
+  font-family:var(--font-hd);font-size:200px;
+  color:rgba(255,255,255,.018);pointer-events:none;white-space:nowrap;
+}
+.srv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+.srv-card{
+  background:var(--dark-2);padding:48px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.srv-card::before{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:2px;
+  background:var(--red);
+  transform:scaleY(0);transform-origin:top;
+  transition:transform .45s var(--ease);
+}
+.srv-card:hover::before{transform:scaleY(1)}
+.srv-card:hover{background:var(--dark-3)}
+.srv-icon{font-size:38px;margin-bottom:22px;display:block}
+.srv-num{
+  position:absolute;top:22px;right:28px;
+  font-family:var(--font-hd);font-size:88px;
+  color:rgba(255,255,255,.028);line-height:1;
+}
+.srv-t{
+  font-family:var(--font-cd);font-size:21px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--white);margin-bottom:11px;
+}
+.srv-d{font-size:13.5px;line-height:1.72;color:var(--muted);max-width:300px}
+.srv-lnk{
+  margin-top:22px;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-cd);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);text-decoration:none;
+  transition:gap .3s;
+}
+.srv-lnk:hover{gap:14px}
+
+/* ============================================================
+   TRADE-IN
+   ============================================================ */
+.ti-sec{
+  background:var(--dark-2);
+  padding:120px 64px;
+  display:grid;grid-template-columns:1fr 1fr;gap:84px;align-items:center;
+}
+.ti-vis{position:relative;height:500px}
+.ti-img-a{
+  position:absolute;right:0;top:0;
+  width:84%;height:83%;
+  object-fit:cover;filter:grayscale(25%);
+}
+.ti-img-b{
+  position:absolute;left:0;bottom:0;
+  width:54%;height:52%;
+  object-fit:cover;border:4px solid var(--dark-2);
+  filter:grayscale(10%);
+}
+.ti-tag{
+  position:absolute;top:50%;right:-22px;
+  transform:translateY(-50%);
+  background:var(--red);padding:18px 12px;
+  writing-mode:vertical-rl;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.ti-tag-t{
+  font-family:var(--font-cd);font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+}
+.ti-steps{display:flex;flex-direction:column;gap:30px;margin-top:38px}
+.ti-step{display:flex;gap:18px;align-items:flex-start}
+.ti-step-n{
+  font-family:var(--font-hd);font-size:52px;color:var(--red);line-height:1;min-width:48px;
+}
+.ti-step-t{
+  font-family:var(--font-cd);font-size:17px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--white);margin-bottom:5px;
+}
+.ti-step-d{font-size:13.5px;line-height:1.65;color:var(--muted)}
+
+/* ============================================================
+   TAXI
+   ============================================================ */
+.taxi-sec{
+  background:var(--red);
+  padding:100px 64px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.taxi-sec::before{
+  content:'ТАКСИ';
+  position:absolute;right:-60px;top:50%;
+  transform:translateY(-50%);
+  font-family:var(--font-hd);font-size:220px;
+  color:rgba(0,0,0,.09);pointer-events:none;white-space:nowrap;
+}
+.taxi-tag{
+  font-family:var(--font-cd);font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:14px;
+}
+.taxi-h{
+  font-family:var(--font-hd);
+  font-size:clamp(52px,5.5vw,86px);
+  color:#fff;line-height:.9;margin-bottom:22px;
+}
+.taxi-p{
+  font-size:15px;line-height:1.75;
+  color:rgba(255,255,255,.72);max-width:400px;margin-bottom:34px;
+}
+.btn-w{
+  font-family:var(--font-cd);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--red);background:#fff;border:none;padding:15px 34px;
+  text-decoration:none;display:inline-block;cursor:none;
+  transition:transform .3s var(--ease),background .3s;
+}
+.btn-w:hover{transform:translateY(-3px);background:var(--chrome-lt)}
+.taxi-img{
+  width:100%;height:360px;
+  object-fit:cover;object-position:center;
+  filter:brightness(.82);position:relative;z-index:1;
+}
+
+/* ============================================================
+   NEWS
+   ============================================================ */
+.news-sec{background:var(--dark);padding:120px 64px}
+.news-hd{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:56px;
+}
+.news-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;gap:3px;
+}
+.n-card{
+  background:var(--dark-2);overflow:hidden;
+  transition:transform .4s var(--ease);
+}
+.n-card:hover{transform:translateY(-4px)}
+.n-card img{
+  width:100%;height:200px;
+  object-fit:cover;filter:grayscale(25%);
+  transition:filter .4s,transform .5s var(--ease);
+}
+.n-card:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.n-card.feat img{height:300px}
+.n-body{padding:22px}
+.n-date{
+  font-family:var(--font-cd);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);margin-bottom:9px;
+}
+.n-title{
+  font-family:var(--font-cd);font-size:19px;font-weight:700;
+  color:var(--white);line-height:1.3;margin-bottom:10px;
+}
+.n-card.feat .n-title{font-size:24px}
+.n-ex{font-size:12.5px;line-height:1.65;color:var(--muted)}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about-sec{
+  background:var(--dark-2);
+  padding:120px 64px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.about-nums{display:flex;gap:40px;margin-bottom:36px}
+.a-num-v{font-family:var(--font-hd);font-size:52px;color:var(--red);line-height:1}
+.a-num-l{
+  font-family:var(--font-cd);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+}
+.about-vis{position:relative;height:500px}
+.about-img-a{
+  position:absolute;right:0;top:0;
+  width:80%;height:80%;object-fit:cover;filter:grayscale(20%);
+}
+.about-img-b{
+  position:absolute;left:0;bottom:0;
+  width:54%;height:54%;
+  object-fit:cover;border:4px solid var(--dark-2);
+}
+.about-pill{
+  position:absolute;top:50%;right:-22px;
+  transform:translateY(-50%);
+  background:var(--red);padding:18px 12px;writing-mode:vertical-rl;
+}
+.about-pill-t{
+  font-family:var(--font-cd);font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+}
+
+/* ============================================================
+   CONTACTS
+   ============================================================ */
+.con-sec{
+  background:var(--dark-3);
+  padding:120px 64px;
+  display:grid;grid-template-columns:1fr 1.25fr;gap:80px;align-items:start;
+}
+.con-items{display:flex;flex-direction:column;gap:36px}
+.con-lbl{
+  font-family:var(--font-cd);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--red);margin-bottom:7px;
+}
+.con-val{
+  font-family:var(--font-cd);font-size:21px;font-weight:600;
+  color:var(--white);line-height:1.4;text-decoration:none;display:block;
+}
+.con-val:hover{color:var(--red)}
+.con-sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+.con-form-wrap{
+  background:var(--dark-4);padding:30px;
+  border:1px solid var(--glass-b);
+}
+.con-form-t{
+  font-family:var(--font-cd);font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--white);margin-bottom:18px;
+}
+.con-form{display:flex;flex-direction:column;gap:10px}
+.con-form input,.con-form select{
+  background:var(--dark-3);
+  border:1px solid var(--glass-b);
+  padding:13px 15px;color:var(--white);
+  font-family:var(--font-bd);font-size:13.5px;outline:none;
+  transition:border-color .3s;
+}
+.con-form input:focus,.con-form select:focus{border-color:var(--red)}
+.con-form select option{background:var(--dark-3);color:var(--white)}
+.map-box{
+  width:100%;height:420px;
+  background:var(--dark-2);border:1px solid var(--glass-b);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.map-box::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.map-pin{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px}
+.map-dot{
+  width:52px;height:52px;
+  background:var(--red);
+  clip-path:polygon(50% 0%,100% 35%,82% 100%,18% 100%,0% 35%);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(227,0,27,0))}
+  50%{transform:scale(1.06);filter:drop-shadow(0 0 14px rgba(227,0,27,.65))}
+}
+.map-lbl{
+  font-family:var(--font-cd);font-size:13px;letter-spacing:.06em;
+  color:var(--white);text-align:center;
+}
+.map-lbl small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.how-box{
+  background:var(--dark-2);
+  border:1px solid var(--glass-b);
+  padding:26px;margin-top:3px;
+  display:flex;gap:20px;align-items:center;
+}
+.how-ico{font-size:30px}
+.how-t{
+  font-family:var(--font-cd);font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--white);margin-bottom:3px;
+}
+.how-d{font-size:12.5px;color:var(--muted);line-height:1.55}
+
+/* ============================================================
+   SHOWROOM BANNER
+   ============================================================ */
+.showroom-banner{
+  background:var(--dark-4);
+  border:1px solid var(--glass-b);
+  padding:60px 64px;
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+  position:relative;overflow:hidden;
+}
+.showroom-banner::before{
+  content:'3D';
+  position:absolute;right:240px;top:50%;transform:translateY(-50%);
+  font-family:var(--font-hd);font-size:200px;
+  color:rgba(255,255,255,.03);pointer-events:none;
+}
+.sb-left{}
+.sb-tag{font-family:var(--font-cd);font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.sb-t{
+  font-family:var(--font-hd);font-size:clamp(36px,4vw,56px);
+  color:var(--white);line-height:1;margin-bottom:8px;
+}
+.sb-d{font-size:14px;color:var(--muted);max-width:460px;line-height:1.6}
+.sb-car-preview{
+  display:flex;gap:3px;flex-shrink:0;
+}
+.sb-car{
+  width:90px;height:60px;
+  overflow:hidden;position:relative;
+}
+.sb-car img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%);transition:filter .3s}
+.sb-car:hover img{filter:grayscale(0%)}
+.sb-car-lbl{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,.7);
+  font-family:var(--font-cd);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--chrome);padding:3px 6px;
+  text-align:center;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  background:var(--black);
+  border-top:1px solid var(--glass-b);
+  padding:64px 64px 40px;
+}
+.ft-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;
+  margin-bottom:56px;
+}
+.ft-logo{
+  font-family:var(--font-hd);font-size:34px;color:var(--white);
+  display:block;margin-bottom:14px;
+}
+.ft-logo em{color:var(--red);font-style:normal}
+.ft-p{font-size:12.5px;line-height:1.72;color:var(--muted);max-width:240px;margin-bottom:22px}
+.ft-soc{display:flex;gap:8px}
+.ft-s{
+  width:34px;height:34px;
+  border:1px solid var(--glass-b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;font-family:var(--font-cd);
+  color:var(--muted);text-decoration:none;
+  transition:border-color .3s,color .3s,background .3s;
+}
+.ft-s:hover{border-color:var(--red);color:#fff;background:rgba(227,0,27,.1)}
+.ft-ct{
+  font-family:var(--font-cd);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--white);margin-bottom:18px;
+}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-links a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+  transition:color .3s;position:relative;padding-left:0;
+}
+.ft-links a::before{
+  content:'›';color:var(--red);opacity:0;
+  transform:translateX(-5px);
+  transition:opacity .3s,transform .3s;
+}
+.ft-links a:hover{color:var(--red)}
+.ft-links a:hover::before{opacity:1;transform:translateX(0)}
+.ft-bot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:28px;border-top:1px solid var(--glass-b);
+}
+.ft-copy{font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+.ft-disc{font-size:10.5px;color:rgba(255,255,255,.14);max-width:380px;text-align:right;line-height:1.5}
+
+/* ============================================================
+   REVEAL ANIMATIONS
+   ============================================================ */
+.rv{
+  opacity:0;transform:translateY(36px);
+  transition:opacity .85s var(--ease),transform .85s var(--ease);
+}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}
+.rv.d2{transition-delay:.2s}
+.rv.d3{transition-delay:.3s}
+.rv.d4{transition-delay:.4s}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .nav{padding:20px 32px}
+  .nav.sticky{padding:13px 32px}
+  .nav-links,.nav-phone{display:none}
+  .burger{display:flex}
+  .sec{padding:80px 32px}
+  .stats{padding:32px;grid-template-columns:repeat(2,1fr)}
+  .stat{padding:24px}
+  .cars-grid{grid-template-columns:repeat(2,1fr)}
+  .car-card.wide{grid-column:span 2}
+  .news-grid{grid-template-columns:1fr 1fr}
+  .n-card.feat{grid-column:span 2}
+  .ti-sec{grid-template-columns:1fr;gap:44px;padding:80px 32px}
+  .ti-vis{height:360px}
+  .taxi-sec{grid-template-columns:1fr;padding:80px 32px}
+  .about-sec{grid-template-columns:1fr;padding:80px 32px}
+  .con-sec{grid-template-columns:1fr;padding:80px 32px}
+  .ft-top{grid-template-columns:1fr 1fr;gap:40px}
+  footer{padding:48px 32px 32px}
+  .showroom-banner{padding:44px 32px;flex-direction:column;align-items:flex-start}
+  .h-stats{display:none}
+  .h-content{padding:0 32px}
+}
+@media(max-width:720px){
+  .hero-content{padding:0 24px}
+  .h-scroll{left:24px}
+  .sec{padding:64px 24px}
+  .stats{padding:20px 24px;grid-template-columns:repeat(2,1fr)}
+  .stat{padding:16px;border-right:none;border-bottom:1px solid var(--glass-b)}
+  .stat:nth-child(odd){border-right:1px solid var(--glass-b)}
+  .stat:last-child,.stat:nth-last-child(2){border-bottom:none}
+  .cars-grid{grid-template-columns:1fr}
+  .car-card.wide{grid-column:span 1}
+  .car-card.wide .cc-inner{grid-template-columns:1fr}
+  .car-card.wide .cc-img{height:220px}
+  .srv-grid{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr}
+  .n-card.feat{grid-column:span 1}
+  .taxi-sec{padding:64px 24px}
+  .ti-sec{padding:64px 24px}
+  .about-sec{padding:64px 24px}
+  .con-sec{padding:64px 24px}
+  .ft-top{grid-template-columns:1fr}
+  footer{padding:40px 24px 28px}
+  .ft-bot{flex-direction:column;gap:12px;text-align:center}
+  .ft-disc{text-align:center}
+  .mob-menu{padding:100px 28px 40px}
+  .showroom-banner{padding:40px 24px}
+  .news-sec,.cars-sec{padding:64px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-logo">ЭКСПРЕСС<em>-</em>АВТО</div>
+  <div class="ld-bar"><div class="ld-prog"></div></div>
+</div>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu">
+  <ul class="mob-links">
+    <li><a href="#cars"    onclick="closeMob()">Автомобили</a></li>
+    <li><a href="#service" onclick="closeMob()">Сервис</a></li>
+    <li><a href="#tradein" onclick="closeMob()">Trade-in</a></li>
+    <li><a href="#news"    onclick="closeMob()">Новости</a></li>
+    <li><a href="#about"   onclick="closeMob()">О компании</a></li>
+    <li><a href="#contacts"onclick="closeMob()">Контакты</a></li>
+  </ul>
+  <a href="tel:+78619234567" class="mob-phone">+7 (861) 923-45-67</a>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-hex">Э</div>
+    <div class="logo-txt">Экспресс-авто<span>Официальный дилер LADA</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#cars">Автомобили</a></li>
+    <li><a href="#service">Сервис</a></li>
+    <li><a href="#tradein">Trade-in</a></li>
+    <li><a href="#news">Новости</a></li>
+    <li><a href="#about">О компании</a></li>
+    <li><a href="#contacts">Контакты</a></li>
+  </ul>
+  <a href="tel:+78619234567" class="nav-phone">
+    <div class="phone-ring">📞</div>
+    +7 (861) 923-45-67
+  </a>
+  <button class="burger" id="burger" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ HERO ═══════ -->
+<section class="hero" id="home">
+  <canvas id="pcanvas"></canvas>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1400&q=85&fit=crop&crop=center" alt="LADA">
+  </div>
+  <div class="hero-content">
+    <div class="h-tag">Официальный дилер · г. Кропоткин</div>
+    <h1 class="h-title">ЕДЕМ<br><span class="r">В </span><span class="g">LADA</span></h1>
+    <p class="h-sub">Экспресс-авто — официальный дилер LADA в Кропоткине. Новые автомобили в наличии, сервис по стандартам завода и выгодный Trade-in.</p>
+    <div class="h-ctas">
+      <a href="#cars" class="btn-r"><span>Выбрать автомобиль</span> <span>→</span></a>
+      <a href="#contacts" class="btn-o">Записаться на тест-драйв</a>
+    </div>
+  </div>
+  <div class="h-scroll"><div class="scroll-ln"></div>Прокрутить вниз</div>
+  <div class="h-stats">
+    <div class="hs-item"><div class="hs-n">15<span style="font-size:22px;color:var(--chrome)">+</span></div><div class="hs-l">лет работы</div></div>
+    <div class="hs-div"></div>
+    <div class="hs-item"><div class="hs-n">5</div><div class="hs-l">моделей</div></div>
+    <div class="hs-div"></div>
+    <div class="hs-item"><div class="hs-n">★★★★★</div><div class="hs-l" style="font-size:7px">рейтинг lada</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item">LADA Vesta</span><span class="mq-item">LADA Granta</span><span class="mq-item">LADA Niva Travel</span><span class="mq-item">LADA Largus</span><span class="mq-item">LADA Aura</span><span class="mq-item">Официальный сервис</span><span class="mq-item">Trade-in</span><span class="mq-item">Тест-драйв</span><span class="mq-item">3D Шоурум</span><span class="mq-item">LADA в такси</span>
+    <span class="mq-item">LADA Vesta</span><span class="mq-item">LADA Granta</span><span class="mq-item">LADA Niva Travel</span><span class="mq-item">LADA Largus</span><span class="mq-item">LADA Aura</span><span class="mq-item">Официальный сервис</span><span class="mq-item">Trade-in</span><span class="mq-item">Тест-драйв</span><span class="mq-item">3D Шоурум</span><span class="mq-item">LADA в такси</span>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats">
+  <div class="stat rv">
+    <div class="stat-n"><span class="counter" data-t="15">0</span><span class="u">+</span></div>
+    <div class="stat-l">Лет работы с LADA</div>
+  </div>
+  <div class="stat rv d1">
+    <div class="stat-n"><span class="counter" data-t="2400">0</span><span class="u">+</span></div>
+    <div class="stat-l">Автомобилей продано</div>
+  </div>
+  <div class="stat rv d2">
+    <div class="stat-n"><span class="counter" data-t="98">0</span><span class="u">%</span></div>
+    <div class="stat-l">Довольных клиентов</div>
+  </div>
+  <div class="stat rv d3">
+    <div class="stat-n"><span class="counter" data-t="5">0</span></div>
+    <div class="stat-l">Моделей в наличии</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ CARS ════════ -->
+<section class="sec cars-sec" id="cars">
+  <div style="margin-bottom:60px" class="rv">
+    <div class="sec-tag">Модельный ряд 2026</div>
+    <h2 class="sec-h">НАШИ <span class="gh">АВТОМОБИЛИ</span></h2>
+  </div>
+  <div class="cars-tabs">
+    <button class="ctab on">Все модели</button>
+    <button class="ctab">Седаны</button>
+    <button class="ctab">Внедорожники</button>
+    <button class="ctab">Универсалы</button>
+  </div>
+  <div class="cars-grid">
+
+    <!-- Vesta -->
+    <div class="car-card rv">
+      <div class="cc-img">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80&fit=crop&crop=entropy" alt="LADA Vesta">
+        <div class="cc-badge">Хит продаж</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-fam">LADA</div>
+        <div class="cc-name">VESTA</div>
+        <div class="cc-specs">
+          <div><div class="cc-spec-v">1.6 / 1.8</div><div class="cc-spec-k">Двигатель, л</div></div>
+          <div><div class="cc-spec-v">106 / 122</div><div class="cc-spec-k">Л.с.</div></div>
+          <div><div class="cc-spec-v">МКПП / АКПП</div><div class="cc-spec-k">КПП</div></div>
+        </div>
+        <div class="cc-foot">
+          <div class="cc-price">от <span class="cc-price-v">1 199 900 ₽</span></div>
+          <a href="#contacts" class="cc-btn">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Granta -->
+    <div class="car-card rv d1">
+      <div class="cc-img">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80&fit=crop&crop=entropy" alt="LADA Granta">
+      </div>
+      <div class="cc-body">
+        <div class="cc-fam">LADA</div>
+        <div class="cc-name">GRANTA</div>
+        <div class="cc-specs">
+          <div><div class="cc-spec-v">1.6</div><div class="cc-spec-k">Двигатель, л</div></div>
+          <div><div class="cc-spec-v">87 / 106</div><div class="cc-spec-k">Л.с.</div></div>
+          <div><div class="cc-spec-v">МКПП / АМТ</div><div class="cc-spec-k">КПП</div></div>
+        </div>
+        <div class="cc-foot">
+          <div class="cc-price">от <span class="cc-price-v">799 900 ₽</span></div>
+          <a href="#contacts" class="cc-btn">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Niva Travel -->
+    <div class="car-card rv d2">
+      <div class="cc-img">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80&fit=crop&crop=entropy" alt="LADA Niva Travel">
+        <div class="cc-badge">Новинка</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-fam">LADA</div>
+        <div class="cc-name">NIVA TRAVEL</div>
+        <div class="cc-specs">
+          <div><div class="cc-spec-v">1.7</div><div class="cc-spec-k">Двигатель, л</div></div>
+          <div><div class="cc-spec-v">80</div><div class="cc-spec-k">Л.с.</div></div>
+          <div><div class="cc-spec-v">4WD</div><div class="cc-spec-k">Привод</div></div>
+        </div>
+        <div class="cc-foot">
+          <div class="cc-price">от <span class="cc-price-v">1 099 900 ₽</span></div>
+          <a href="#contacts" class="cc-btn">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Largus -->
+    <div class="car-card rv">
+      <div class="cc-img">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80&fit=crop&crop=center" alt="LADA Largus">
+      </div>
+      <div class="cc-body">
+        <div class="cc-fam">LADA</div>
+        <div class="cc-name">LARGUS</div>
+        <div class="cc-specs">
+          <div><div class="cc-spec-v">1.6</div><div class="cc-spec-k">Двигатель, л</div></div>
+          <div><div class="cc-spec-v">106</div><div class="cc-spec-k">Л.с.</div></div>
+          <div><div class="cc-spec-v">5–7 мест</div><div class="cc-spec-k">Вместимость</div></div>
+        </div>
+        <div class="cc-foot">
+          <div class="cc-price">от <span class="cc-price-v">1 049 900 ₽</span></div>
+          <a href="#contacts" class="cc-btn">Подробнее →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aura (wide) -->
+    <div class="car-card wide rv d1">
+      <div class="cc-inner">
+        <div class="cc-img">
+          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1000&q=80&fit=crop&crop=center" alt="LADA Aura">
+          <div class="cc-badge" style="background:linear-gradient(135deg,#1a1a1a,#333)">Флагман</div>
+        </div>
+        <div class="cc-body">
+          <div class="cc-fam">LADA</div>
+          <div class="cc-name">AURA</div>
+          <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:20px">
+            Флагманский седан нового поколения. Комфорт, технологии и стиль на высшем уровне.
+          </p>
+          <div class="cc-specs" style="margin-bottom:20px">
+            <div><div class="cc-spec-v">2.0</div><div class="cc-spec-k">Двигатель, л</div></div>
+            <div><div class="cc-spec-v">150</div><div class="cc-spec-k">Л.с.</div></div>
+            <div><div class="cc-spec-v">АКПП</div><div class="cc-spec-k">КПП</div></div>
+          </div>
+          <div class="cc-foot">
+            <div class="cc-price">от <span class="cc-price-v">1 499 900 ₽</span></div>
+            <a href="#contacts" class="cc-btn">Подробнее →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cars-grid -->
+
+  <!-- 3D SHOWROOM BANNER -->
+  <div class="showroom-banner rv" style="margin-top:3px">
+    <div class="sb-left">
+      <div class="sb-tag">Интерактивный опыт</div>
+      <div class="sb-t">3D ШОУРУМ LADA</div>
+      <p class="sb-d">Осмотрите любой автомобиль изнутри и снаружи в нашем виртуальном шоуруме — без визита в салон.</p>
+      <a href="#contacts" class="btn-r" style="margin-top:22px;display:inline-flex"><span>Открыть 3D шоурум</span></a>
+    </div>
+    <div class="sb-car-preview">
+      <div class="sb-car">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=200&q=70&fit=crop" alt="Vesta">
+        <div class="sb-car-lbl">Vesta</div>
+      </div>
+      <div class="sb-car">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=200&q=70&fit=crop" alt="Niva">
+        <div class="sb-car-lbl">Niva</div>
+      </div>
+      <div class="sb-car">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=200&q=70&fit=crop" alt="Aura">
+        <div class="sb-car-lbl">Aura</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ SERVICE ════════ -->
+<section class="sec srv-sec" id="service">
+  <div style="margin-bottom:64px" class="rv">
+    <div class="sec-tag">Сервис и обслуживание</div>
+    <h2 class="sec-h">ВАШ АВТОМОБИЛЬ<br><span class="gh">В НАДЁЖНЫХ РУКАХ</span></h2>
+  </div>
+  <div class="srv-grid">
+    <div class="srv-card rv">
+      <span class="srv-icon">🔧</span>
+      <div class="srv-num">01</div>
+      <div class="srv-t">Техническое обслуживание</div>
+      <p class="srv-d">Плановое ТО по регламенту LADA. Оригинальные запчасти, гарантия на работы. Быстро и без очередей.</p>
+      <a href="#contacts" class="srv-lnk">Записаться →</a>
+    </div>
+    <div class="srv-card rv d1">
+      <span class="srv-icon">🔬</span>
+      <div class="srv-num">02</div>
+      <div class="srv-t">Компьютерная диагностика</div>
+      <p class="srv-d">Диагностика всех систем официальным дилерским оборудованием. Точно выявим любую неисправность.</p>
+      <a href="#contacts" class="srv-lnk">Подробнее →</a>
+    </div>
+    <div class="srv-card rv">
+      <span class="srv-icon">🏗️</span>
+      <div class="srv-num">03</div>
+      <div class="srv-t">Кузовной ремонт</div>
+      <p class="srv-d">Собственная малярно-кузовная мастерская. Восстановление любой сложности с гарантией на результат.</p>
+      <a href="#contacts" class="srv-lnk">Рассчитать стоимость →</a>
+    </div>
+    <div class="srv-card rv d1">
+      <span class="srv-icon">❄️</span>
+      <div class="srv-num">04</div>
+      <div class="srv-t">Шиномонтаж и балансировка</div>
+      <p class="srv-d">Сезонная смена шин, балансировка и хранение резины. Принимаем без предварительной записи.</p>
+      <a href="#contacts" class="srv-lnk">Узнать цены →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ TRADE-IN ════════ -->
+<div class="ti-sec" id="tradein">
+  <div class="ti-vis rv">
+    <img class="ti-img-a" src="https://images.unsplash.com/photo-1617814076668-8dfc6fe3b744?w=800&q=80&fit=crop" alt="Trade-in">
+    <img class="ti-img-b" src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=500&q=80&fit=crop" alt="Обмен">
+    <div class="ti-tag">
+      <span class="ti-tag-t">Trade</span>
+      <span class="ti-tag-t">in</span>
+    </div>
+  </div>
+  <div class="rv d2">
+    <div class="sec-tag">Выгодный обмен</div>
+    <h2 class="sec-h" style="font-size:clamp(44px,5vw,76px);margin-bottom:18px">
+      ОБМЕНЯЙ СТАРЫЙ<br>НА <span style="color:var(--red)">НОВЫЙ</span>
+    </h2>
+    <p style="font-size:14.5px;line-height:1.78;color:var(--muted);max-width:430px;margin-bottom:36px">
+      Сдайте свой автомобиль в зачёт стоимости нового LADA. Честная рыночная оценка и оформление за один день.
+    </p>
+    <div class="ti-steps">
+      <div class="ti-step">
+        <div class="ti-step-n">1</div>
+        <div>
+          <div class="ti-step-t">Оценка вашего авто</div>
+          <p class="ti-step-d">Наш эксперт оценит автомобиль по реальным рыночным ценам без занижения.</p>
+        </div>
+      </div>
+      <div class="ti-step">
+        <div class="ti-step-n">2</div>
+        <div>
+          <div class="ti-step-t">Выбор нового LADA</div>
+          <p class="ti-step-d">Стоимость вашего авто вычитается из цены выбранной модели.</p>
+        </div>
+      </div>
+      <div class="ti-step">
+        <div class="ti-step-n">3</div>
+        <div>
+          <div class="ti-step-t">Оформление за 1 день</div>
+          <p class="ti-step-d">Все документы прямо у нас — уедете на новом авто в день обращения.</p>
+        </div>
+      </div>
+    </div>
+    <a href="#contacts" class="btn-r" style="margin-top:34px;display:inline-flex"><span>Оценить мой автомобиль</span></a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ TAXI ════════ -->
+<div class="taxi-sec">
+  <div class="rv">
+    <div class="taxi-tag">Специальное предложение</div>
+    <h2 class="taxi-h">LADA<br>В ТАКСИ</h2>
+    <p class="taxi-p">Специальные условия для таксопарков и частных перевозчиков. Расширенная гарантия, выгодные цены и приоритетный сервис.</p>
+    <a href="#contacts" class="btn-w">Узнать условия</a>
+  </div>
+  <div class="rv d2">
+    <img class="taxi-img" src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80&fit=crop" alt="LADA такси">
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ NEWS ════════ -->
+<section class="news-sec" id="news">
+  <div class="news-hd rv">
+    <div>
+      <div class="sec-tag">Новости и акции</div>
+      <h2 class="sec-h">В КУРСЕ <span class="gh">СОБЫТИЙ</span></h2>
+    </div>
+    <a href="#" class="btn-o">Все новости</a>
+  </div>
+  <div class="news-grid">
+    <div class="n-card feat rv">
+      <img src="https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?w=900&q=80&fit=crop" alt="">
+      <div class="n-body">
+        <div class="n-date">15 мая 2026</div>
+        <div class="n-title">LADA Aura: флагманский седан доступен у дилера в Кропоткине</div>
+        <p class="n-ex">Экспресс-авто открывает продажи нового флагмана LADA Aura. Запись на тест-драйв уже открыта. Специальные условия для первых покупателей — подробности у менеджеров.</p>
+      </div>
+    </div>
+    <div class="n-card rv d1">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80&fit=crop" alt="">
+      <div class="n-body">
+        <div class="n-date">10 мая 2026</div>
+        <div class="n-title">Весенняя акция: ТО со скидкой 20%</div>
+        <p class="n-ex">До 31 мая плановое ТО по специальной цене. Успейте записаться!</p>
+      </div>
+    </div>
+    <div class="n-card rv d2">
+      <img src="https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=500&q=80&fit=crop" alt="">
+      <div class="n-body">
+        <div class="n-date">5 мая 2026</div>
+        <div class="n-title">Экспресс-авто — партнёр Дня молодёжи</div>
+        <p class="n-ex">Наша компания выступила официальным партнёром городского праздника в Кропоткине.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ABOUT ═══════ -->
+<section class="about-sec" id="about">
+  <div class="rv">
+    <div class="sec-tag">О компании</div>
+    <h2 class="sec-h" style="font-size:clamp(44px,5vw,76px);margin-bottom:22px">
+      МЫ РАБОТАЕМ<br>ДЛЯ <span style="color:var(--red)">ВАС</span>
+    </h2>
+    <p style="font-size:14.5px;line-height:1.8;color:var(--muted);margin-bottom:18px">
+      ООО «Экспресс-авто» — официальный дилер LADA в городе Кропоткин Краснодарского края. Более 15 лет помогаем выбрать надёжный автомобиль российского производства.
+    </p>
+    <p style="font-size:14.5px;line-height:1.8;color:var(--muted);margin-bottom:34px">
+      Наш дилерский центр оснащён по стандартам AVTOVAZ. Полный цикл услуг: продажа, гарантийный и постгарантийный сервис.
+    </p>
+    <div class="about-nums">
+      <div>
+        <div class="a-num-v">15+</div><div class="a-num-l">Лет работы</div>
+      </div>
+      <div>
+        <div class="a-num-v">3</div><div class="a-num-l">Сервисных поста</div>
+      </div>
+      <div>
+        <div class="a-num-v">★</div><div class="a-num-l">Дилер LADA</div>
+      </div>
+    </div>
+    <a href="#contacts" class="btn-r"><span>Приехать к нам</span></a>
+  </div>
+  <div class="about-vis rv d2">
+    <img class="about-img-a" src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?w=800&q=80&fit=crop" alt="Дилерский центр">
+    <img class="about-img-b" src="https://images.unsplash.com/photo-1581579186913-45ac3e6efe93?w=400&q=80&fit=crop" alt="Сервис">
+    <div class="about-pill"><span class="about-pill-t">Официальный дилер LADA</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ CONTACTS ════════ -->
+<section class="con-sec" id="contacts">
+  <div class="rv">
+    <div class="sec-tag">Связаться с нами</div>
+    <h2 class="sec-h" style="font-size:clamp(44px,5vw,72px);margin-bottom:34px">
+      ПРИЕДЕМ<br><span class="gh">К СОГЛАСИЮ</span>
+    </h2>
+    <div class="con-items">
+      <div>
+        <div class="con-lbl">Телефон</div>
+        <a href="tel:+78619234567" class="con-val">+7 (861) 923-45-67</a>
+        <div class="con-sub">Звонок бесплатный · Пн–Сб 9:00–20:00</div>
+      </div>
+      <div>
+        <div class="con-lbl">Адрес</div>
+        <div class="con-val" style="cursor:default">г. Кропоткин, ул. Советская, 202</div>
+        <div class="con-sub">Краснодарский край</div>
+      </div>
+      <div>
+        <div class="con-lbl">Режим работы</div>
+        <div class="con-val" style="cursor:default;font-size:17px">
+          Пн–Пт: 9:00 – 20:00<br>
+          Сб: 9:00 – 18:00<br>
+          Вс: выходной
+        </div>
+      </div>
+      <div>
+        <div class="con-lbl">Email</div>
+        <a href="mailto:info@express-avto.lada.ru" class="con-val" style="font-size:16px">info@express-avto.lada.ru</a>
+      </div>
+      <!-- FORM -->
+      <div class="con-form-wrap">
+        <div class="con-form-t">Оставить заявку</div>
+        <form class="con-form" onsubmit="sendForm(event)">
+          <input type="text" placeholder="Ваше имя" required>
+          <input type="tel" placeholder="+7 (___) ___-__-__" required>
+          <select>
+            <option value="">Интересующая модель</option>
+            <option>LADA Vesta</option>
+            <option>LADA Granta</option>
+            <option>LADA Niva Travel</option>
+            <option>LADA Largus</option>
+            <option>LADA Aura</option>
+          </select>
+          <button type="submit" class="btn-r" style="border:none;cursor:none;justify-content:center">
+            <span>Отправить заявку</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="rv d2">
+    <div class="map-box">
+      <div class="map-pin">
+        <div class="map-dot"></div>
+        <div class="map-lbl">Экспресс-авто<small>г. Кропоткин, ул. Советская, 202</small></div>
+      </div>
+    </div>
+    <div class="how-box">
+      <div class="how-ico">🚗</div>
+      <div>
+        <div class="how-t">Как добраться</div>
+        <p class="how-d">От ж/д вокзала Кропоткин — 10 минут на машине. В центре города, бесплатная парковка на территории.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOOTER ══════ -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <span class="ft-logo">ЭКСПРЕСС<em>-</em>АВТО</span>
+      <p class="ft-p">Официальный дилер LADA в Кропоткине. Продажа, сервис, запасные части.</p>
+      <div class="ft-soc">
+        <a class="ft-s" href="#">VK</a>
+        <a class="ft-s" href="#">ОК</a>
+        <a class="ft-s" href="#">TG</a>
+        <a class="ft-s" href="#">YT</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-ct">Автомобили</div>
+      <ul class="ft-links">
+        <li><a href="#cars">LADA Vesta</a></li>
+        <li><a href="#cars">LADA Granta</a></li>
+        <li><a href="#cars">LADA Niva Travel</a></li>
+        <li><a href="#cars">LADA Largus</a></li>
+        <li><a href="#cars">LADA Aura</a></li>
+        <li><a href="#cars">3D Шоурум</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-ct">Услуги</div>
+      <ul class="ft-links">
+        <li><a href="#service">Техническое ТО</a></li>
+        <li><a href="#service">Диагностика</a></li>
+        <li><a href="#service">Кузовной ремонт</a></li>
+        <li><a href="#tradein">Trade-in</a></li>
+        <li><a href="#">LADA в такси</a></li>
+        <li><a href="#contacts">Тест-драйв</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-ct">Компания</div>
+      <ul class="ft-links">
+        <li><a href="#about">О компании</a></li>
+        <li><a href="#news">Новости</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+        <li><a href="#">Вакансии</a></li>
+        <li><a href="#">Отзывы</a></li>
+        <li><a href="#">Политика конфиденциальности</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div class="ft-copy">© 2026 ООО «Экспресс-авто». Все права защищены.</div>
+    <div class="ft-disc">Информация носит справочный характер и не является публичной офертой. Цены могут меняться.</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════ SCRIPTS ═════ -->
+<script>
+/* ── CURSOR ─────────────────────────────────────────────── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function tick(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+document.querySelectorAll('a,button,.car-card,.srv-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('on');ring.classList.add('on')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('on');ring.classList.remove('on')});
+});
+
+/* ── LOADER ──────────────────────────────────────────────── */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),1700));
+
+/* ── NAV ─────────────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('sticky',scrollY>50));
+
+/* ── MOBILE MENU ─────────────────────────────────────────── */
+let mobOpen=false;
+function toggleMob(){
+  mobOpen=!mobOpen;
+  document.getElementById('mob-menu').classList.toggle('open',mobOpen);
+  const s=document.querySelectorAll('.burger span');
+  if(mobOpen){s[0].style.transform='rotate(45deg) translate(4px,4px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(4px,-4px)'}
+  else s.forEach(x=>{x.style.transform='';x.style.opacity=''});
+}
+function closeMob(){mobOpen=false;document.getElementById('mob-menu').classList.remove('open');document.querySelectorAll('.burger span').forEach(x=>{x.style.transform='';x.style.opacity=''})}
+
+/* ── PARTICLES ───────────────────────────────────────────── */
+(function(){
+  const cv=document.getElementById('pcanvas'),cx=cv.getContext('2d');
+  let pts=[];
+  function resize(){cv.width=cv.parentElement.offsetWidth;cv.height=cv.parentElement.offsetHeight}
+  class P{
+    constructor(){this.reset(true)}
+    reset(init){
+      this.x=Math.random()*cv.width;
+      this.y=Math.random()*cv.height;
+      this.vx=(Math.random()-.5)*.5;
+      this.vy=(Math.random()-.5)*.5;
+      this.r=Math.random()*1.4+.3;
+      this.op=Math.random()*.45+.1;
+      this.life=init?Math.random()*280:0;
+      this.max=Math.random()*280+200;
+    }
+    step(){
+      this.x+=this.vx;this.y+=this.vy;this.life++;
+      if(this.life>this.max||this.x<0||this.x>cv.width||this.y<0||this.y>cv.height)this.reset(false);
+    }
+    draw(){
+      const t=this.life/this.max;
+      const a=this.op*(t<.1?t*10:t>.9?(1-t)*10:1);
+      cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      cx.fillStyle=`rgba(227,0,27,${a})`;cx.fill();
+    }
+  }
+  function init(){pts=[];for(let i=0;i<90;i++)pts.push(new P())}
+  function frame(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<110){cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.strokeStyle=`rgba(227,0,27,${(1-d/110)*.07})`;cx.lineWidth=.5;cx.stroke()}
+    }
+    pts.forEach(p=>{p.step();p.draw()});
+    requestAnimationFrame(frame);
+  }
+  resize();init();frame();
+  window.addEventListener('resize',()=>{resize();init()});
+})();
+
+/* ── SCROLL REVEAL ───────────────────────────────────────── */
+new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1})
+  .observe.call(
+    new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1}),
+    document.body
+  );
+// proper version:
+const revObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>revObs.observe(el));
+
+/* ── COUNTERS ────────────────────────────────────────────── */
+const cntObs=new IntersectionObserver(e=>e.forEach(x=>{
+  if(!x.isIntersecting)return;
+  const el=x.target,tgt=+el.dataset.t,dur=1400,step=tgt/(dur/16);
+  let c=0;const t=setInterval(()=>{c+=step;if(c>=tgt){el.textContent=tgt.toLocaleString('ru');clearInterval(t)}else el.textContent=Math.floor(c).toLocaleString('ru')},16);
+  cntObs.unobserve(el);
+}),{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>cntObs.observe(el));
+
+/* ── TABS ────────────────────────────────────────────────── */
+document.querySelectorAll('.ctab').forEach(t=>t.addEventListener('click',function(){
+  document.querySelectorAll('.ctab').forEach(x=>x.classList.remove('on'));
+  this.classList.add('on');
+}));
+
+/* ── FORM ────────────────────────────────────────────────── */
+function sendForm(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  btn.querySelector('span').textContent='Отправлено ✓';
+  btn.style.background='#1a6b2e';
+  setTimeout(()=>{btn.querySelector('span').textContent='Отправить заявку';btn.style.background='';e.target.reset()},3200);
+}
+
+/* ── HERO PARALLAX ───────────────────────────────────────── */
+window.addEventListener('scroll',()=>{
+  const img=document.querySelector('.hero-photo img');
+  if(img&&scrollY<window.innerHeight)img.style.transform=`translateY(${scrollY*.14}px)`;
+});
+</script>
+</body>
+</html>
